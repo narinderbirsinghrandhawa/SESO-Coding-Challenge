@@ -5,16 +5,22 @@ const Printer = require("./lib/printer");
 
 const printer = new Printer();
 
+// 'printLogs' function created
 const printLogs = (logs, isPopAsync) => {
-  const logEntries = [];
+  const logEntries = []; // Blank Arr
   for (var i = 0; i < logs?.length; i++) {
     const log = logs[i];
+
+    // Check to use 'pop' or 'popAsync' method from boolean value present in parameter 'isPopAsync'
     if (isPopAsync) {
+      // 'popAsync' method returns a promise that resolve with LogEntry and pushing to blank array 'logEntries'
       log?.popAsync().done((d) => logEntries.push(d));
     } else {
+      // 'pop' method returns a simple LogEntry and pushing to blank array 'logEntries'
       logEntries.push(log?.pop());
     }
   }
+  // Execute the 'sort' function of javascript to sort the 'logEntries' according to chronological order.
   const sorted = logEntries.sort((a, b) => a.date - b.date);
   for (var i = 0; i < sorted?.length; i++) {
     printer.print(sorted[i]);
@@ -51,7 +57,7 @@ function runSolutions(sourceCount) {
       syncLogSources.push(new LogSource());
     }
 
-    printLogs(syncLogSources, false)
+    printLogs(syncLogSources, false) // Called 'printLogs' function and passed Log Source Array and a boolean value to use 'Sync' or 'Async' pop method as parameters.
     
 
     try {
@@ -80,7 +86,7 @@ function runSolutions(sourceCount) {
         asyncLogSources.push(new LogSource());
       }
 
-      printLogs(asyncLogSources, true)
+      printLogs(asyncLogSources, true) // Called 'printLogs' function and passed Log Source Array and a boolean value to use 'Sync' or 'Async' pop method as parameters.
       
 
       require("./solution/async-sorted-merge")(asyncLogSources, new Printer())
